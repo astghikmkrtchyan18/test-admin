@@ -1,0 +1,9 @@
+{
+  "hello": "Hello",
+  "welcome": "Welcome to our site",
+  "language": "Language",
+  "map": {
+    "openGoogle": "Open in Google Maps",
+    "openYandex": "Open in Yandex Maps"
+  }
+}

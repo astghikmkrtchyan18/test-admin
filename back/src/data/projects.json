@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "name": "Website Redesign",
+    "status": "In Progress",
+    "tasks": [
+      { "id": 1, "name": "UI Design", "complete": true },
+      { "id": 2, "name": "Frontend Integration", "complete": false },
+      { "id": 3, "name": "Testing", "complete": false }
+    ],
+    "progress": 0,
+    "taskCount": 0
+  },
+  {
+    "id": 2,
+    "name": "Mobile App Launch",
+    "status": "Completed",
+    "tasks": [
+      { "id": 1, "name": "API Setup", "complete": true },
+      { "id": 2, "name": "App Store Upload", "complete": true }
+    ],
+    "progress": 0,
+    "taskCount": 0
+  }
+]

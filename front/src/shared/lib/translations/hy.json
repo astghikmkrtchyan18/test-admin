@@ -1,0 +1,9 @@
+{
+  "hello": "Բարև",
+  "welcome": "Բարի գալուստ մեր կայք",
+  "language": "Լեզու",
+  "map": {
+    "openGoogle": "Բացել Google Քարտեզներում",
+    "openYandex": "Բացել Yandex Քարտեզներում"
+  }
+}
