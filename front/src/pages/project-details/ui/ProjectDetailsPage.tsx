@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { CheckCircle2, Circle, Plus } from "lucide-react";
 import { useProjectStore } from "@/entities/project/model/store";
 
 export const ProjectDetailsPage = () => {
+    const {
+    fetchProjects,
+  } = useProjectStore();
+    useEffect(() => {
+      fetchProjects();
+    }, [fetchProjects]);
   const { id } = useParams();
   const projectId = Number(id);
 

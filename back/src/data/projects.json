@@ -1,25 +1,47 @@
 [
   {
-    "id": 1,
-    "name": "Website Redesign",
+    "id": 2,
+    "name": "Mobile App Launch",
     "status": "In Progress",
     "tasks": [
-      { "id": 1, "name": "UI Design", "complete": true },
-      { "id": 2, "name": "Frontend Integration", "complete": false },
-      { "id": 3, "name": "Testing", "complete": false }
+      {
+        "id": 1,
+        "name": "API Setup",
+        "complete": false
+      },
+      {
+        "id": 2,
+        "name": "App Store Upload",
+        "complete": true
+      }
     ],
-    "progress": 0,
+    "progress": 50,
     "taskCount": 0
   },
   {
-    "id": 2,
-    "name": "Mobile App Launch",
-    "status": "Completed",
+    "id": 3,
+    "name": "SAD",
+    "status": "In Progress",
     "tasks": [
-      { "id": 1, "name": "API Setup", "complete": true },
-      { "id": 2, "name": "App Store Upload", "complete": true }
+      {
+        "id": 1762867564589,
+        "name": "FDSF",
+        "complete": false
+      }
     ],
-    "progress": 0,
-    "taskCount": 0
+    "progress": 0
+  },
+  {
+    "id": 4,
+    "name": "ASD",
+    "status": "In Progress",
+    "tasks": [
+      {
+        "id": 1762867573557,
+        "name": "SADASD",
+        "complete": false
+      }
+    ],
+    "progress": 0
   }
 ]

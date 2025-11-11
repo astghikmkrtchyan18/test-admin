@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { http } from "@/shared";
 
 type Task = {
   id: number;
@@ -17,118 +18,138 @@ type Project = {
 interface ProjectStore {
   projects: Project[];
   loading: boolean;
-  fetchProjects: () => void;
-  addProject: (name: string) => void;
-  editProgress: (id: number, progress: number) => void;
-  deleteProject: (id: number) => void;
-  addTask: (projectId: number, taskName: string) => void;
-  toggleTask: (projectId: number, taskId: number) => void;
+  error: string | null;
+  fetchProjects: () => Promise<void>;
+  addProject: (name: string) => Promise<void>;
+  editProgress: (id: number, progress: number) => Promise<void>;
+  deleteProject: (id: number) => Promise<void>;
+  addTask: (projectId: number, taskName: string) => Promise<void>;
+  toggleTask: (projectId: number, taskId: number) => Promise<void>;
 }
 
-export const useProjectStore = create<ProjectStore>((set) => ({
+export const useProjectStore = create<ProjectStore>((set, get) => ({
   projects: [],
   loading: false,
+  error: null,
 
-  fetchProjects: () =>
-    set({
-      projects: [
-        {
-          id: 1,
-          name: "Website Redesign",
-          status: "In Progress",
-          progress: 60,
-          tasks: [
-            { id: 1, name: "UI Design", complete: true },
-            { id: 2, name: "Frontend Integration", complete: false },
-            { id: 3, name: "Testing", complete: false },
-          ],
-        },
-        {
-          id: 2,
-          name: "Mobile App Launch",
-          status: "Completed",
-          progress: 100,
-          tasks: [
-            { id: 1, name: "API Setup", complete: true },
-            { id: 2, name: "App Store Upload", complete: true },
-          ],
-        },
-        {
-          id: 3,
-          name: "Marketing Campaign",
-          status: "In Progress",
-          progress: 35,
-          tasks: [
-            { id: 1, name: "Plan Ads", complete: false },
-            { id: 2, name: "Design Banners", complete: true },
-          ],
-        },
-      ],
-    }),
+  // 🔹 Get all projects
+  fetchProjects: async () => {
+    try {
+      set({ loading: true, error: null });
+      const response = await http.get<Project[]>("/projects");
+      set({ projects: response.data, loading: false });
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
 
-  addProject: (name) =>
-    set((state) => {
-      const newProject: Project = {
-        id: Date.now(),
+  // 🔹 Add new project
+  addProject: async (name) => {
+    try {
+      set({ loading: true, error: null });
+      const response = await http.post<Project>("/projects", {
         name,
         status: "In Progress",
-        progress: 0,
         tasks: [],
+      });
+      set((state) => ({
+        projects: [...state.projects, response.data],
+        loading: false,
+      }));
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  // 🔹 Update project progress
+  editProgress: async (id, progress) => {
+    try {
+      set({ loading: true, error: null });
+      const project = get().projects.find((p) => p.id === id);
+      if (!project) throw new Error("Project not found");
+
+      const updated = {
+        ...project,
+        progress,
+        status: progress === 100 ? "Completed" : "In Progress",
       };
-      return { projects: [...state.projects, newProject] };
-    }),
 
-  editProgress: (id, progress) =>
-    set((state) => ({
-      projects: state.projects.map((p) =>
-        p.id === id
-          ? {
-              ...p,
-              progress,
-              status: progress === 100 ? "Completed" : "In Progress",
-            }
-          : p
-      ),
-    })),
+      const response = await http.put<Project>(`/projects/${id}`, updated);
+      set((state) => ({
+        projects: state.projects.map((p) =>
+          p.id === id ? response.data : p
+        ),
+        loading: false,
+      }));
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
 
-  deleteProject: (id) =>
-    set((state) => ({
-      projects: state.projects.filter((p) => p.id !== id),
-    })),
+  // 🔹 Delete project
+  deleteProject: async (id) => {
+    try {
+      set({ loading: true, error: null });
+      await http.delete(`/projects/${id}`);
+      set((state) => ({
+        projects: state.projects.filter((p) => p.id !== id),
+        loading: false,
+      }));
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
 
-  addTask: (projectId, taskName) =>
-    set((state) => ({
-      projects: state.projects.map((p) =>
-        p.id === projectId
-          ? {
-              ...p,
-              tasks: [
-                ...p.tasks,
-                { id: Date.now(), name: taskName, complete: false },
-              ],
-            }
-          : p
-      ),
-    })),
+  // 🔹 Add new task
+  addTask: async (projectId, taskName) => {
+    try {
+      set({ loading: true, error: null });
+      const project = get().projects.find((p) => p.id === projectId);
+      if (!project) throw new Error("Project not found");
 
-  toggleTask: (projectId, taskId) =>
-    set((state) => ({
-      projects: state.projects.map((p) => {
-        if (p.id !== projectId) return p;
-        const updatedTasks = p.tasks.map((t) =>
-          t.id === taskId ? { ...t, complete: !t.complete } : t
-        );
-        const completed = updatedTasks.filter((t) => t.complete).length;
-        const progress =
-          updatedTasks.length === 0
-            ? 0
-            : Math.round((completed / updatedTasks.length) * 100);
-        return {
-          ...p,
-          tasks: updatedTasks,
-          progress,
-          status: progress === 100 ? "Completed" : "In Progress",
-        };
-      }),
-    })),
+      const updatedTasks = [
+        ...project.tasks,
+        { id: Date.now(), name: taskName, complete: false },
+      ];
+
+      const response = await http.put<Project>(`/projects/${projectId}`, {
+        tasks: updatedTasks,
+      });
+
+      set((state) => ({
+        projects: state.projects.map((p) =>
+          p.id === projectId ? response.data : p
+        ),
+        loading: false,
+      }));
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  // 🔹 Toggle task complete/incomplete
+  toggleTask: async (projectId, taskId) => {
+    try {
+      set({ loading: true, error: null });
+      const project = get().projects.find((p) => p.id === projectId);
+      if (!project) throw new Error("Project not found");
+
+      const updatedTasks = project.tasks.map((t) =>
+        t.id === taskId ? { ...t, complete: !t.complete } : t
+      );
+
+      const response = await http.put<Project>(`/projects/${projectId}`, {
+        tasks: updatedTasks,
+      });
+
+      set((state) => ({
+        projects: state.projects.map((p) =>
+          p.id === projectId ? response.data : p
+        ),
+        loading: false,
+      }));
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
 }));
