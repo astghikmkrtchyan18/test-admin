@@ -1,4 +1,4 @@
-import { Header, Sidebar} from "@/widgets";
+import { Header, Sidebar } from "@/widgets";
 import { Outlet } from "react-router";
 
 export function Layout() {
@@ -11,7 +11,7 @@ export function Layout() {
       <div className="flex h-screen overflow-hidden">
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
-          < Header  />
+          <Header />
           <main className="flex-1 overflow-y-auto bg-transparent">
             <div className="p-6 space-y-6">
               <Outlet />

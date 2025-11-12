@@ -1,9 +1,15 @@
 export const menuData = [
+  // {
+  //   id: "projects",
+  //   icon: 'FolderOpen',
+  //   label: "Projects",
+  //   count: "2",
+  //   url: "/projects"
+  // },
   {
     id: "dashboard",
     icon: 'LayoutDashboard',
     label: "Dashbord",
-    active: true,
     badge: "New",
     url: "/"
   },
@@ -11,7 +17,7 @@ export const menuData = [
     id: "team",
     icon: 'Users',
     label: "Team",
-    count: "2.4k",
+    count: "4",
     url: "/team"
   }
 ];

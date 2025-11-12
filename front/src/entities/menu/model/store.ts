@@ -4,6 +4,8 @@ import type { MenuStore, MenuItem } from "./types";
 
 export const useMenuStore = create<MenuStore>((set) => ({
   items: [],
+  collapsed: false,
+  currentPage: "dashboard",
   loading: false,
   error: null,
 
@@ -17,4 +19,9 @@ export const useMenuStore = create<MenuStore>((set) => ({
       set({ error: err.message, loading: false });
     }
   },
+  setSideBarCollapsed: () => {
+    const { collapsed } = useMenuStore.getState();
+    set({ collapsed:!collapsed })
+  },
+  setCurrentPage: (pageId: string) => set({ currentPage: pageId }),
 }));

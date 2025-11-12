@@ -1,20 +1,9 @@
 import { Router } from "express";
 import fs from "fs";
 import path from "path";
+import { Project, Task } from "../types/projects";
 
-export interface Task {
-  id: number;
-  name: string;
-  complete: boolean;
-}
 
-export interface Project {
-  id: number;
-  name: string;
-  status: string;
-  progress: number;
-  tasks: Task[];
-}
 
 export const projectRouter = Router();
 
@@ -80,11 +69,14 @@ projectRouter.post("/", (req, res) => {
 
   const projects = readProjects();
   const newProject: Project = {
-    id: projects.length ? projects[projects.length - 1].id + 1 : 1,
+    id: Date.now(),
     name,
     status: status || "In Progress",
     tasks: tasks || [],
     progress: 0,
+    created_date: new Date().toISOString(),
+    ownerId: 1, // default owner
+    taskCount: tasks ? tasks.length : 0,
   };
 
   const updated = recalcProject(newProject);
