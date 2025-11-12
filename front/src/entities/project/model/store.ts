@@ -1,19 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { create } from "zustand";
 import { http } from "@/shared";
+import type { Project, Task } from "./types";
 
-type Task = {
-  id: number;
-  name: string;
-  complete: boolean;
-};
-
-type Project = {
-  id: number;
-  name: string;
-  status: string;
-  progress: number;
-  tasks: Task[];
-};
 
 interface ProjectStore {
   projects: Project[];
@@ -23,7 +12,9 @@ interface ProjectStore {
   addProject: (name: string) => Promise<void>;
   editProgress: (id: number, progress: number) => Promise<void>;
   deleteProject: (id: number) => Promise<void>;
-  addTask: (projectId: number, taskName: string) => Promise<void>;
+  addTask: (projectId: number, task: Omit<Task, "id">) => Promise<void>;
+  updateTask: (projectId: number, taskId: number, updates: Partial<Task>) => Promise<void>;
+  deleteTask: (projectId: number, taskId: number) => Promise<void>;
   toggleTask: (projectId: number, taskId: number) => Promise<void>;
 }
 
@@ -101,7 +92,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   },
 
   // 🔹 Add new task
-  addTask: async (projectId, taskName) => {
+  addTask: async (projectId, newTask) => {
     try {
       set({ loading: true, error: null });
       const project = get().projects.find((p) => p.id === projectId);
@@ -109,8 +100,58 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
 
       const updatedTasks = [
         ...project.tasks,
-        { id: Date.now(), name: taskName, complete: false },
+        { id: Date.now(), ...newTask },
       ];
+
+      const response = await http.put<Project>(`/projects/${projectId}`, {
+        tasks: updatedTasks,
+      });
+
+      set((state) => ({
+        projects: state.projects.map((p) =>
+          p.id === projectId ? response.data : p
+        ),
+        loading: false,
+      }));
+      // @ts-ignore
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+  // 🔹 Update existing task
+  updateTask: async (projectId, taskId, updates) => {
+    try {
+      set({ loading: true, error: null });
+      const project = get().projects.find((p) => p.id === projectId);
+      if (!project) throw new Error("Project not found");
+
+      const updatedTasks = project.tasks.map((t) =>
+        t.id === taskId ? { ...t, ...updates } : t
+      );
+
+      const response = await http.put<Project>(`/projects/${projectId}`, {
+        tasks: updatedTasks,
+      });
+
+      set((state) => ({
+        projects: state.projects.map((p) =>
+          p.id === projectId ? response.data : p
+        ),
+        loading: false,
+      }));
+    } catch (err: any) {
+      set({ error: err.message, loading: false });
+    }
+  },
+
+  // 🔹 Delete task
+  deleteTask: async (projectId, taskId) => {
+    try {
+      set({ loading: true, error: null });
+      const project = get().projects.find((p) => p.id === projectId);
+      if (!project) throw new Error("Project not found");
+
+      const updatedTasks = project.tasks.filter((t) => t.id !== taskId);
 
       const response = await http.put<Project>(`/projects/${projectId}`, {
         tasks: updatedTasks,

@@ -19,6 +19,8 @@ export function Layout() {
           </main>
         </div>
       </div>
+      <div id="modal-root" />
+
     </div>
   );
 }

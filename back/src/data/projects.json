@@ -3,15 +3,16 @@
     "id": 1,
     "name": "Mobile App Launch",
     "ownerId": 1,
-    "status": "Completed",
+    "status": "In Progress",
     "created_date": "2024-06-15T10:00:00Z",
     "tasks": [
       {
         "id": 1,
-        "name": "API Setup",
-        "complete": true,
+        "name": "API Setupp",
+        "complete": false,
         "assigned": 2,
-        "created_date": "2024-06-15T10:00:00Z"
+        "created_date": "2024-06-15T10:00:00Z",
+        "description": "sdfsdffdsf"
       },
       {
         "id": 2,
@@ -26,7 +27,7 @@
         "complete": true
       }
     ],
-    "progress": 100,
+    "progress": 67,
     "taskCount": 0
   },
   {
