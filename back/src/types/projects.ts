@@ -4,6 +4,7 @@ export interface Task {
   complete: boolean;
   assigned: number;
   created_date: string; // ISO date string
+  end_date?: string;
   description?: string;
 }
 

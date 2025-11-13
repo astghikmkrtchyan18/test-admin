@@ -3,6 +3,7 @@ import cors from "cors";
 import { menuRouter } from "./routes/menu.routes";
 import { teamRouter } from "./routes/team.routes";
 import { projectRouter } from "./routes/project.routes";
+import { notificationRouter } from "./routes/notification.routes";
 
 export const app = express();
 
@@ -17,4 +18,5 @@ app.get("/", (_, res) => {
 app.use("/api/menu", menuRouter);
 app.use("/api/team", teamRouter);
 app.use("/api/projects", projectRouter);
+app.use("/api/notifications", notificationRouter);
 

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "New Project Created",
+    "message": "A new project has been created.",
+    "date": "2024-06-20T12:00:00Z",
+    "read": false
+  },
+  {
+    "id": 2,
+    "title": "Task Assigned",
+    "message": "You have been assigned a new task.",
+    "date": "2024-06-21T09:30:00Z",
+    "read": false
+  },
+  {
+    "id": 3,
+    "title": "Project Completed",
+    "message": "The project 'Website Redesign' has been completed.",
+    "date": "2024-06-22T15:45:00Z",
+    "read": false
+  }
+]

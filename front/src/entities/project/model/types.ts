@@ -5,6 +5,7 @@ export interface Task {
   assigned: number;
   created_date: string; // ISO date string
   description?: string;
+  end_date?: string;
 }
 
 export interface Project {

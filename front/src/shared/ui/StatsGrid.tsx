@@ -45,7 +45,7 @@ export const StatsGrid = () => {
 				return (
 					<div
 						key={index}
-						className="flex flex-col  justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl p-6 min-h-[150px] border border-slate-200/50 dark:border-slate-700/50 hover:shadow-lg transition-all duration-300 group"
+						className="flex flex-col  justify-between bg-white/80 dark:bg-slate-900/80 rounded-2xl p-6 min-h-[150px] border border-slate-200/50 dark:border-slate-700/50 hover:shadow-lg transition-all duration-300 group"
 					>
 						<div className="flex items-start justify-between">
 							<div className="flex-1">

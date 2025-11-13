@@ -3,31 +3,37 @@
     "id": 1,
     "name": "Mobile App Launch",
     "ownerId": 1,
-    "status": "In Progress",
+    "status": "Completed",
     "created_date": "2024-06-15T10:00:00Z",
     "tasks": [
       {
         "id": 1,
         "name": "API Setupp",
-        "complete": false,
+        "complete": true,
         "assigned": 2,
         "created_date": "2024-06-15T10:00:00Z",
-        "description": "sdfsdffdsf"
+        "description": "sdfsdffdsf",
+        "end_date": "2025-01-02"
       },
       {
         "id": 2,
         "name": "App Store Upload",
         "complete": true,
         "assigned": 2,
-        "created_date": "2024-06-15T10:00:00Z"
+        "created_date": "2024-06-15T10:00:00Z",
+        "description": "",
+        "end_date": "2025-01-01"
       },
       {
         "id": 1762947476815,
         "name": "fds",
-        "complete": true
+        "complete": true,
+        "description": "",
+        "assigned": 0,
+        "end_date": "2025-11-28"
       }
     ],
-    "progress": 67,
+    "progress": 100,
     "taskCount": 0
   },
   {

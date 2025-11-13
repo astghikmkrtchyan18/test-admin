@@ -39,7 +39,7 @@ export function DashboardPage() {
   if (loading) return <div className="p-6 text-slate-500">Loading...</div>;
 
   return (
-    <div className="p-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-lg">
+    <div className="p-6 bg-white/80 dark:bg-slate-900/80 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-lg">
     <StatsGrid/>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold text-slate-800 dark:text-white">
