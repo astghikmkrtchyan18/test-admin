@@ -29,7 +29,7 @@ export const StatsGrid = () => {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 			{/* Add Button Card */}
-			<div className="flex items-center justify-center bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl p-6 min-h-[150px] border border-slate-200/50 dark:border-slate-700/50 hover:shadow-lg transition-all duration-300 group">
+			<div className="flex items-center justify-center bg-white/80 dark:bg-slate-900/80  rounded-2xl p-6 min-h-[150px] border border-slate-200/50 dark:border-slate-700/50 hover:shadow-lg transition-all duration-300 group">
 				<button
 					onClick={onAdd}
 					className="flex flex-col items-center justify-center text-slate-600 dark:text-slate-300 hover:text-emerald-500 transition-all"

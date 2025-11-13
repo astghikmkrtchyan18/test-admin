@@ -35,7 +35,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 px-6 py-4 relative">
+    <header className="flex items-center justify-between bg-white/80 dark:bg-slate-900/80  border-b border-slate-200/50 dark:border-slate-700/50 px-6 py-4 relative">
       {/* Left Section */}
       <div className="flex items-center space-x-4">
         <IconButton

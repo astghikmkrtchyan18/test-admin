@@ -57,7 +57,7 @@ export const ProjectDetailsPage = () => {
       : Math.round((completed / project.tasks.length) * 100);
 
   return (
-    <div className="p-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-lg">
+    <div className="p-6 bg-white/80 dark:bg-slate-900/80  rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-lg">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold">{project.name}</h2>
