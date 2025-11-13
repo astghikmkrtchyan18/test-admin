@@ -3,6 +3,7 @@ import { Pencil, Trash2, Plus } from "lucide-react";
 import { useProjectStore } from "@/entities/project/model/store";
 import { useNavigate } from "react-router";
 import { StatsGrid } from "@/shared/ui/StatsGrid";
+import { useNotificationStore } from "@/entities/notification/model/store";
 
 export function DashboardPage() {
     const navigate = useNavigate();
@@ -14,14 +15,17 @@ export function DashboardPage() {
     deleteProject,
     loading,
   } = useProjectStore();
-
+  const { fetchNotifications } = useNotificationStore();
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
 
   const handleAdd = async () => {
     const newName = prompt("Enter project name:");
-    if (newName) await addProject(newName);
+    if (newName) {
+      await addProject(newName);
+      await fetchNotifications();
+    }
   };
 
   const handleEditProgress = async (id: number) => {
@@ -29,6 +33,7 @@ export function DashboardPage() {
     if (newProgress !== null) {
       const value = Math.min(100, Math.max(0, parseInt(newProgress)));
       await editProgress(id, value);
+      await fetchNotifications();
     }
   };
 

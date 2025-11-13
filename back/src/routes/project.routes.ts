@@ -3,34 +3,75 @@ import fs from "fs";
 import path from "path";
 import { Project, Task } from "../types/projects";
 
-
-
 export const projectRouter = Router();
 
-// 🔹 Path to JSON data file
+// ============================================================
+// 🔹 Paths
+// ============================================================
 const dataFile = path.join(__dirname, "../data/projects.json");
+const notifFile = path.join(__dirname, "../data/notification.json");
 
-// Utility: Read from file
+// ============================================================
+// 🔹 Types
+// ============================================================
+export interface Notification {
+  id: number;
+  title: string;
+  message: string;
+  date: string; // ISO string
+  read: boolean;
+}
+
+// ============================================================
+// 🔹 Utilities
+// ============================================================
+
+// Read projects
 const readProjects = (): Project[] => {
   try {
     const data = fs.readFileSync(dataFile, "utf-8");
     return JSON.parse(data);
-  } catch (err) {
-    console.error("Error reading projects.json:", err);
+  } catch {
     return [];
   }
 };
 
-// Utility: Write to file
+// Write projects
 const writeProjects = (projects: Project[]) => {
+  fs.writeFileSync(dataFile, JSON.stringify(projects, null, 2));
+};
+
+// Read notifications
+const readNotifications = (): Notification[] => {
   try {
-    fs.writeFileSync(dataFile, JSON.stringify(projects, null, 2));
-  } catch (err) {
-    console.error("Error writing projects.json:", err);
+    const data = fs.readFileSync(notifFile, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return [];
   }
 };
 
-// Utility: Recalculate project progress
+// Write notifications
+const writeNotifications = (notifs: Notification[]) => {
+  fs.writeFileSync(notifFile, JSON.stringify(notifs, null, 2));
+};
+
+// Create new notification
+const createNotification = (title: string, message: string) => {
+  const notifications = readNotifications();
+  const newNotif: Notification = {
+    id: Date.now(),
+    title,
+    message,
+    date: new Date().toISOString(),
+    read: false,
+  };
+  notifications.push(newNotif);
+  writeNotifications(notifications);
+  return newNotif;
+};
+
+// Recalculate project progress
 const recalcProject = (project: Project): Project => {
   const completed = project.tasks.filter((t) => t.complete).length;
   const progress =
@@ -38,8 +79,8 @@ const recalcProject = (project: Project): Project => {
       ? 0
       : Math.round((completed / project.tasks.length) * 100);
   const status = progress === 100 ? "Completed" : "In Progress";
-
-  return { ...project, progress, status };
+ createNotification("Projcet Copleted", `Project "${project.name}" has been completed.`);
+  return { ...project, progress, status, taskCount: project.tasks.length };
 };
 
 // ============================================================
@@ -61,7 +102,7 @@ projectRouter.get("/:id", (req, res) => {
   res.json(project);
 });
 
-// POST /api/projects
+// POST /api/projects → Create Project + Notification
 projectRouter.post("/", (req, res) => {
   const { name, status, tasks }: Partial<Project> = req.body;
   if (!name)
@@ -75,7 +116,7 @@ projectRouter.post("/", (req, res) => {
     tasks: tasks || [],
     progress: 0,
     created_date: new Date().toISOString(),
-    ownerId: 1, // default owner
+    ownerId: 1,
     taskCount: tasks ? tasks.length : 0,
   };
 
@@ -83,10 +124,16 @@ projectRouter.post("/", (req, res) => {
   projects.push(updated);
   writeProjects(projects);
 
+  // 🔹 Create notification
+  createNotification(
+    "New Project Created",
+    `Project "${updated.name}" has been created successfully.`
+  );
+
   res.status(201).json(updated);
 });
 
-// PUT /api/projects/:id
+// PUT /api/projects/:id → Update Project + Notification
 projectRouter.put("/:id", (req, res) => {
   const id = Number(req.params.id);
   const projects = readProjects();
@@ -105,6 +152,13 @@ projectRouter.put("/:id", (req, res) => {
 
   projects[index] = updatedProject;
   writeProjects(projects);
+
+  // 🔹 Create notification
+  createNotification(
+    "Project Updated",
+    `Project "${updatedProject.name}" has been updated.`
+  );
+
   res.json(updatedProject);
 });
 
@@ -116,7 +170,81 @@ projectRouter.delete("/:id", (req, res) => {
   if (index === -1)
     return res.status(404).json({ error: "Project not found" });
 
-  projects.splice(index, 1);
+  const deleted = projects.splice(index, 1)[0];
   writeProjects(projects);
+
+  // 🔹 Create notification
+  createNotification(
+    "Project Deleted",
+    `Project "${deleted.name}" has been deleted.`
+  );
+
   res.json({ message: "Project deleted" });
+});
+
+// ============================================================
+// 🔹 TASKS ENDPOINTS
+// ============================================================
+
+// POST /api/projects/:projectId/tasks → Create Task + Notification
+projectRouter.post("/:projectId/tasks", (req, res) => {
+  const projectId = Number(req.params.projectId);
+  const { name, complete }: Partial<Task> = req.body;
+
+  if (!name)
+    return res.status(400).json({ error: "Task name is required" });
+
+  const projects = readProjects();
+  const index = projects.findIndex((p) => p.id === projectId);
+  if (index === -1)
+    return res.status(404).json({ error: "Project not found" });
+
+  const newTask: Task = {
+    id: Date.now(),
+    name,
+    complete: complete || false,
+  };
+
+  projects[index].tasks.push(newTask);
+  const updatedProject = recalcProject(projects[index]);
+  projects[index] = updatedProject;
+  writeProjects(projects);
+
+  // 🔹 Create notification
+  createNotification(
+    "New Task Created",
+    `Task "${newTask.name}" was added to project "${updatedProject.name}".`
+  );
+
+  res.status(201).json(newTask);
+});
+
+// PUT /api/projects/:projectId/tasks/:taskId → Update Task + Notification
+projectRouter.put("/:projectId/tasks/:taskId", (req, res) => {
+  const projectId = Number(req.params.projectId);
+  const taskId = Number(req.params.taskId);
+  const { name, complete }: Partial<Task> = req.body;
+
+  const projects = readProjects();
+  const project = projects.find((p) => p.id === projectId);
+  if (!project) return res.status(404).json({ error: "Project not found" });
+
+  const task = project.tasks.find((t) => t.id === taskId);
+  if (!task) return res.status(404).json({ error: "Task not found" });
+
+  if (name !== undefined) task.name = name;
+  if (complete !== undefined) task.complete = complete;
+
+  const updatedProject = recalcProject(project);
+  const projectIndex = projects.findIndex((p) => p.id === projectId);
+  projects[projectIndex] = updatedProject;
+  writeProjects(projects);
+
+  // 🔹 Create notification
+  if(complete) {
+    const notifMsg =  `Task "${task.name}" in project "${project.name}" was marked as complete.`
+    // : `Task "${task.name}" in project "${project.name}" was updated.`;
+  createNotification("Task Updated", notifMsg);
+  }
+  res.json(task);
 });

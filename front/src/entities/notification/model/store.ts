@@ -29,7 +29,7 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
     try {
       set({ loading: true, error: null });
       const res = await http.get<Notification[]>("/notifications");
-      const notifications = res.data;
+      const notifications = res.data.reverse();
       const unreadCount = notifications.filter((n) => !n.read).length;
       console.log(unreadCount, 'unreadCount', notifications);
       set({ notifications, unreadCount, loading: false });

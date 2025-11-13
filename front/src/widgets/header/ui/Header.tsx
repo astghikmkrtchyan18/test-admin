@@ -18,13 +18,15 @@ import { useNotificationStore } from "@/entities/notification/model/store";
 export function Header() {
   const { setSideBarCollapsed, currentPage, collapsed } = useMenuStore();
   const [dark, setDark] = useDarkMode();
-  const { notifications, unreadCount, fetchNotifications, markAsRead } =
+  const { notifications: allNotifications, unreadCount, fetchNotifications, markAsRead } =
     useNotificationStore();
+  const [notifications, setNotifications] = useState(allNotifications); 
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     fetchNotifications();
-  }, [fetchNotifications]);
+    setNotifications(allNotifications);
+  }, [fetchNotifications, allNotifications]);
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
