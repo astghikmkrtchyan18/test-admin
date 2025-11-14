@@ -5,5 +5,54 @@
     "message": "Project \"sadasd\" has been updated.",
     "date": "2025-11-14T13:28:30.365Z",
     "read": true
+  },
+  {
+    "id": 1763130201973,
+    "title": "Projcet Copleted",
+    "message": "Project \"gfh\" has been completed.",
+    "date": "2025-11-14T14:23:21.974Z",
+    "read": false
+  },
+  {
+    "id": 1763130201974,
+    "title": "New Project Created",
+    "message": "Project \"gfh\" has been created successfully.",
+    "date": "2025-11-14T14:23:21.974Z",
+    "read": false
+  },
+  {
+    "id": 1763130223595,
+    "title": "Project Deleted",
+    "message": "Project \"gfh\" has been deleted.",
+    "date": "2025-11-14T14:23:43.595Z",
+    "read": false
+  },
+  {
+    "id": 1763130226240,
+    "title": "Project Deleted",
+    "message": "Project \"d\" has been deleted.",
+    "date": "2025-11-14T14:23:46.240Z",
+    "read": false
+  },
+  {
+    "id": 1763130228866,
+    "title": "Project Deleted",
+    "message": "Project \"dsa\" has been deleted.",
+    "date": "2025-11-14T14:23:48.866Z",
+    "read": false
+  },
+  {
+    "id": 1763130232327,
+    "title": "Projcet Copleted",
+    "message": "Project \"fgh\" has been completed.",
+    "date": "2025-11-14T14:23:52.327Z",
+    "read": false
+  },
+  {
+    "id": 1763130232328,
+    "title": "New Project Created",
+    "message": "Project \"fgh\" has been created successfully.",
+    "date": "2025-11-14T14:23:52.328Z",
+    "read": false
   }
 ]
