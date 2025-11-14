@@ -54,5 +54,19 @@
     "message": "Project \"fgh\" has been created successfully.",
     "date": "2025-11-14T14:23:52.328Z",
     "read": false
+  },
+  {
+    "id": 1763130456963,
+    "title": "Projcet Copleted",
+    "message": "Project \"dfs\" has been completed.",
+    "date": "2025-11-14T14:27:36.963Z",
+    "read": false
+  },
+  {
+    "id": 1763130456964,
+    "title": "New Project Created",
+    "message": "Project \"dfs\" has been created successfully.",
+    "date": "2025-11-14T14:27:36.964Z",
+    "read": false
   }
 ]

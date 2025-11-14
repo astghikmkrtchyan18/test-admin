@@ -199,7 +199,7 @@ projectRouter.post("/:projectId/tasks", (req, res) => {
   if (index === -1)
     return res.status(404).json({ error: "Project not found" });
 
-  const newTask: anys = {
+  const newTask: any = {
     id: Date.now(),
     name,
     complete: complete || false,
