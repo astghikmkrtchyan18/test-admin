@@ -40,12 +40,12 @@ export const TeamPage = () => {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold">Team Overview</h2>
         <div className="flex gap-4">
-          <button
+          {/* <button
             onClick={handleAddMember}
             className="text-sm text-emerald-500 hover:text-emerald-400 transition"
           >
             + Add Member
-          </button>
+          </button> */}
           <Link
             to="/"
             className="text-sm text-slate-500 hover:text-emerald-500 transition"
