@@ -68,5 +68,26 @@
     "message": "Project \"dfs\" has been created successfully.",
     "date": "2025-11-14T14:27:36.964Z",
     "read": false
+  },
+  {
+    "id": 1763131851583,
+    "title": "Project Deleted",
+    "message": "Project \"dfs\" has been deleted.",
+    "date": "2025-11-14T14:50:51.583Z",
+    "read": false
+  },
+  {
+    "id": 1763131854616,
+    "title": "Project Deleted",
+    "message": "Project \"fgh\" has been deleted.",
+    "date": "2025-11-14T14:50:54.616Z",
+    "read": false
+  },
+  {
+    "id": 1763131857925,
+    "title": "Project Deleted",
+    "message": "Project \"sadasd\" has been deleted.",
+    "date": "2025-11-14T14:50:57.925Z",
+    "read": false
   }
 ]

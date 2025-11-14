@@ -89,45 +89,5 @@
     ],
     "progress": 100,
     "taskCount": 2
-  },
-  {
-    "id": 1763035779692,
-    "name": "sadasd",
-    "status": "Completed",
-    "tasks": [
-      {
-        "id": 1763039810276,
-        "name": "asd",
-        "description": "fsadfdsfd",
-        "assigned": 2,
-        "complete": true,
-        "end_date": "2025-11-21",
-        "created_date": "2025-11-13T13:16:50.276Z"
-      }
-    ],
-    "progress": 100,
-    "created_date": "2025-11-13T12:09:39.692Z",
-    "ownerId": 1,
-    "taskCount": 1
-  },
-  {
-    "id": 1763130232327,
-    "name": "fgh",
-    "status": "In Progress",
-    "tasks": [],
-    "progress": 0,
-    "created_date": "2025-11-14T14:23:52.327Z",
-    "ownerId": 1,
-    "taskCount": 0
-  },
-  {
-    "id": 1763130456963,
-    "name": "dfs",
-    "status": "In Progress",
-    "tasks": [],
-    "progress": 0,
-    "created_date": "2025-11-14T14:27:36.963Z",
-    "ownerId": 1,
-    "taskCount": 0
   }
 ]
