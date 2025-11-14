@@ -23,10 +23,14 @@ export function Header() {
   const [notifications, setNotifications] = useState(allNotifications); 
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    fetchNotifications();
-    setNotifications(allNotifications);
-  }, [fetchNotifications, allNotifications]);
+useEffect(() => {
+  fetchNotifications();
+}, []);
+
+// Update local state whenever store notifications change
+useEffect(() => {
+  setNotifications(allNotifications);
+}, [allNotifications]);
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
