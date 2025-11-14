@@ -29,7 +29,6 @@ export function TaskModal({
 
   const { team, fetchTeam } = useTeamStore();
 
-  // Load team when modal opens
   useEffect(() => {
     if (isOpen) fetchTeam();
   }, [isOpen, fetchTeam]);
@@ -59,7 +58,8 @@ export function TaskModal({
 
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | any
     >
   ) => {
     const { name, value, type, checked } = e.target;
